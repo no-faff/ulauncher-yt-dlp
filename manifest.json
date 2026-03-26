@@ -1,0 +1,43 @@
+{
+  "required_api_version": "^2.0.0",
+  "name": "yt-dlp",
+  "description": "Download videos with yt-dlp",
+  "developer_name": "No Faff",
+  "icon": "images/icon.png",
+  "preferences": [
+    {
+      "id": "kw",
+      "type": "keyword",
+      "name": "Download video",
+      "default_value": "yt"
+    },
+    {
+      "id": "download_dir",
+      "type": "input",
+      "name": "Download directory",
+      "description": "Where to save downloaded files.",
+      "default_value": "~/Downloads"
+    },
+    {
+      "id": "default_format",
+      "type": "select",
+      "name": "Default format",
+      "description": "Video format for downloads.",
+      "default_value": 0,
+      "options": [
+        {
+          "text": "Best quality",
+          "value": 0
+        },
+        {
+          "text": "MP4",
+          "value": 1
+        },
+        {
+          "text": "Audio only",
+          "value": 2
+        }
+      ]
+    }
+  ]
+}

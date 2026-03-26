@@ -1,0 +1,5 @@
+CLAUDE.md
+exports/
+non-repo-files/
+__pycache__/
+*.pyc
