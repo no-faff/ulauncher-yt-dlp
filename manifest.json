@@ -15,14 +15,12 @@
       "id": "download_dir",
       "type": "input",
       "name": "Download directory",
-      "description": "Where to save downloaded files.",
       "default_value": "~/Downloads"
     },
     {
       "id": "default_format",
       "type": "select",
       "name": "Default format",
-      "description": "Video format for downloads.",
       "default_value": 1,
       "options": [
         {
@@ -34,10 +32,118 @@
           "value": 1
         },
         {
-          "text": "Audio only",
+          "text": "MP3 (audio only)",
           "value": 2
         }
       ]
+    },
+    {
+      "id": "max_resolution",
+      "type": "select",
+      "name": "Max resolution",
+      "default_value": 0,
+      "options": [
+        {
+          "text": "Best available",
+          "value": 0
+        },
+        {
+          "text": "2160p (4K)",
+          "value": 2160
+        },
+        {
+          "text": "1080p",
+          "value": 1080
+        },
+        {
+          "text": "720p",
+          "value": 720
+        },
+        {
+          "text": "480p",
+          "value": 480
+        }
+      ]
+    },
+    {
+      "id": "subtitles",
+      "type": "select",
+      "name": "Subtitles",
+      "default_value": 0,
+      "options": [
+        {
+          "text": "Off",
+          "value": 0
+        },
+        {
+          "text": "Embed in video",
+          "value": 1
+        },
+        {
+          "text": "Save as SRT file",
+          "value": 2
+        },
+        {
+          "text": "Save as TXT file",
+          "value": 3
+        },
+        {
+          "text": "SRT and TXT files",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "sub_lang",
+      "type": "input",
+      "name": "Subtitle language",
+      "description": "Language code (e.g. en, fr, de, es). Ignored if subtitles are off.",
+      "default_value": "en"
+    },
+    {
+      "id": "sponsorblock",
+      "type": "select",
+      "name": "SponsorBlock",
+      "description": "Handle sponsor segments in YouTube videos.",
+      "default_value": 0,
+      "options": [
+        {
+          "text": "Off",
+          "value": 0
+        },
+        {
+          "text": "Remove sponsors",
+          "value": 1
+        },
+        {
+          "text": "Mark as chapters",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "embed_metadata",
+      "type": "select",
+      "name": "Embed metadata",
+      "description": "Embed title, uploader, thumbnail and other metadata in the file.",
+      "default_value": 0,
+      "options": [
+        {
+          "text": "No",
+          "value": 0
+        },
+        {
+          "text": "Yes",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "filename_template",
+      "type": "input",
+      "name": "Filename template",
+      "description": "yt-dlp output template. See yt-dlp docs for options: %(title)s, %(id)s, %(uploader)s, etc.",
+      "default_value": "%(title)s.%(ext)s"
     },
     {
       "id": "cookies_browser",

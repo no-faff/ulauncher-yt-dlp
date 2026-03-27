@@ -73,6 +73,12 @@ Downloads run in the background. A desktop notification appears when the downloa
 |---|---|---|
 | Download directory | Where files are saved | `~/Downloads` |
 | Default format | Best quality, MP4 or audio only | MP4 |
+| Max resolution | Limit video resolution to save bandwidth and disk space | Best available |
+| Subtitles | Off, embed in video, save as SRT, save as TXT, or both SRT and TXT | Off |
+| Subtitle language | Language code (e.g. en, fr, de, es) | `en` |
+| SponsorBlock | Remove or mark sponsor segments in YouTube videos | Off |
+| Embed metadata | Embed title, uploader, thumbnail in the file | No |
+| Filename template | yt-dlp [output template](https://github.com/yt-dlp/yt-dlp#output-template) | `%(title)s.%(ext)s` |
 | Browser cookies | For private or restricted videos. Set to the browser where you're logged in | None |
 
 ## Also by No Faff

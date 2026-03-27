@@ -21,7 +21,7 @@ from ulauncher.api.shared.event import (
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 
 from src.download import start_download
-from src.preferences import YtDlpPreferences, get_preferences, validate_preferences
+from src.preferences import YtDlpPreferences, get_preferences, load_preferences, validate_preferences
 
 logger = logging.getLogger(__name__)
 
@@ -102,7 +102,8 @@ class KeywordQueryEventListener(EventListener):
                 )
             ])
 
-        errors = validate_preferences(extension.typed_preferences)
+        prefs = load_preferences()
+        errors = validate_preferences(prefs)
         if errors:
             return _message(errors[0], "error")
 
@@ -134,14 +135,12 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
     def on_event(self, event: ItemEnterEvent, extension: YtDlpExtension) -> HideWindowAction:
         data = event.get_data()
-        prefs = extension.typed_preferences
+        prefs = load_preferences()
         start_download(
             url=data["url"],
-            download_dir=prefs.download_dir,
-            fmt=prefs.default_format,
+            prefs=prefs,
             start=data.get("start"),
             end=data.get("end"),
-            cookies_browser=prefs.cookies_browser,
         )
         return HideWindowAction()
 
