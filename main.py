@@ -6,6 +6,7 @@ import shutil
 
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.client.Extension import Extension
+from ulauncher.api.shared.action.CopyToClipboardAction import CopyToClipboardAction
 from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
@@ -83,7 +84,14 @@ class KeywordQueryEventListener(EventListener):
             return _message("yt-dlp is not installed", "error")
 
         if not shutil.which("deno"):
-            return _message("deno is not installed (required by yt-dlp for YouTube)", "error")
+            return RenderResultListAction([
+                ExtensionResultItem(
+                    icon="images/error.png",
+                    name="deno is not installed (required by yt-dlp for YouTube)",
+                    description="Press Enter to copy the install command",
+                    on_enter=CopyToClipboardAction("curl -fsSL https://deno.land/install.sh | sh"),
+                )
+            ])
 
         errors = validate_preferences(extension.typed_preferences)
         if errors:
