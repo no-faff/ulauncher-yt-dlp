@@ -113,8 +113,8 @@ class KeywordQueryEventListener(EventListener):
             return RenderResultListAction([
                 ExtensionResultItem(
                     icon="images/icon.png",
-                    name="Paste a URL to download. Add timestamps to clip: yt <url> 1:30 3:45",
-                    description="Timestamps: m:ss, h:mm:ss or seconds",
+                    name="yt <url> to download, or yt <url> 1:30 3:45 to grab a clip",
+                    description="Timestamps: m:ss, h:mm:ss or plain seconds",
                     on_enter=DoNothingAction(),
                 )
             ])
