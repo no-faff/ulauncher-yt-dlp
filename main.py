@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import re
 import shutil
+from pathlib import Path
 
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.client.Extension import Extension
@@ -25,6 +26,14 @@ from src.preferences import YtDlpPreferences, get_preferences, validate_preferen
 logger = logging.getLogger(__name__)
 
 TIMESTAMP_RE = re.compile(r"^\d+(?::\d{1,2}){0,2}$")
+_DENO_PATHS = [Path.home() / ".deno" / "bin", Path("/usr/local/bin"), Path("/usr/bin")]
+
+
+def _find_deno() -> bool:
+    """Check for deno on PATH and in common install locations."""
+    if shutil.which("deno"):
+        return True
+    return any((p / "deno").is_file() for p in _DENO_PATHS)
 
 
 def _is_timestamp(value: str) -> bool:
@@ -83,12 +92,12 @@ class KeywordQueryEventListener(EventListener):
         if not shutil.which("yt-dlp"):
             return _message("yt-dlp is not installed", "error")
 
-        if not shutil.which("deno"):
+        if not _find_deno():
             return RenderResultListAction([
                 ExtensionResultItem(
                     icon="images/error.png",
                     name="deno is not installed (required by yt-dlp for YouTube)",
-                    description="Press Enter to copy the install command",
+                    description="Press Enter to copy install command. Say yes to add to PATH, then restart Ulauncher.",
                     on_enter=CopyToClipboardAction("curl -fsSL https://deno.land/install.sh | sh"),
                 )
             ])

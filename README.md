@@ -13,23 +13,36 @@ A [Ulauncher](https://ulauncher.io/) extension for downloading videos with [yt-d
 
 - Ulauncher 6 (Extension API v2)
 - yt-dlp
-- [Deno](https://deno.land/) (required by yt-dlp for YouTube and other sites)
-- notify-send (usually pre-installed on Linux desktops)
+- [Deno](https://deno.land/) (needed by yt-dlp for YouTube and other sites)
+- notify-send (usually already installed on Linux desktops)
 
-Install the dependencies:
+### Installing yt-dlp
 
 ```bash
-# yt-dlp
 # Fedora
 sudo dnf install yt-dlp
+
 # Ubuntu/Debian
 sudo apt install yt-dlp
-# pip
-pip install yt-dlp
 
-# Deno
+# Or with pip (any distro)
+pip install yt-dlp
+```
+
+### Installing Deno
+
+Run this in a terminal:
+
+```bash
 curl -fsSL https://deno.land/install.sh | sh
 ```
+
+The installer will ask two questions:
+
+1. **"Edit shell configs to add deno to the PATH?"** - type **Y** and press Enter. This is required.
+2. **"Set up completions?"** - just press Enter to skip. You don't need this.
+
+Then close and reopen your terminal (or run `source ~/.bashrc`) so the PATH change takes effect.
 
 ## Install
 
@@ -56,7 +69,7 @@ Downloads run in the background. A desktop notification appears when the downloa
 |---|---|---|
 | Download directory | Where files are saved | `~/Downloads` |
 | Default format | Best quality, MP4 or audio only | MP4 |
-| Browser cookies | Pass browser cookies to yt-dlp for sites that require login | None |
+| Browser cookies | For private or restricted videos. Set to the browser where you're logged in | None |
 
 ## Also by No Faff
 

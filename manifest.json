@@ -43,7 +43,7 @@
       "id": "cookies_browser",
       "type": "select",
       "name": "Browser cookies",
-      "description": "Pass cookies to yt-dlp for sites that require login (e.g. YouTube).",
+      "description": "For private or restricted videos. Set to the browser where you're logged in.",
       "default_value": 0,
       "options": [
         {

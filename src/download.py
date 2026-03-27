@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import subprocess
 import threading
 from pathlib import Path
@@ -10,6 +11,15 @@ from src.enums import Format
 logger = logging.getLogger(__name__)
 
 TIMEOUT_SECONDS = 600
+
+
+def _get_env() -> dict[str, str]:
+    """Return a copy of the environment with ~/.deno/bin on PATH."""
+    env = os.environ.copy()
+    deno_bin = str(Path.home() / ".deno" / "bin")
+    if deno_bin not in env.get("PATH", ""):
+        env["PATH"] = deno_bin + ":" + env.get("PATH", "")
+    return env
 
 
 def _build_command(
@@ -57,6 +67,7 @@ def _run_download(cmd: list[str]) -> None:
             capture_output=True,
             text=True,
             timeout=TIMEOUT_SECONDS,
+            env=_get_env(),
         )
         if result.returncode == 0:
             _notify("Download complete", "Video saved to downloads folder")
