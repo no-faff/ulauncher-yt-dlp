@@ -38,6 +38,39 @@
           "value": 2
         }
       ]
+    },
+    {
+      "id": "cookies_browser",
+      "type": "select",
+      "name": "Browser cookies",
+      "description": "Pass cookies to yt-dlp for sites that require login (e.g. YouTube).",
+      "default_value": 0,
+      "options": [
+        {
+          "text": "None",
+          "value": 0
+        },
+        {
+          "text": "Firefox",
+          "value": 1
+        },
+        {
+          "text": "Chrome",
+          "value": 2
+        },
+        {
+          "text": "Brave",
+          "value": 3
+        },
+        {
+          "text": "Edge",
+          "value": 4
+        },
+        {
+          "text": "Chromium",
+          "value": 5
+        }
+      ]
     }
   ]
 }

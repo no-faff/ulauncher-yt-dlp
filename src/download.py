@@ -18,8 +18,12 @@ def _build_command(
     fmt: Format,
     start: str | None = None,
     end: str | None = None,
+    cookies_browser: str | None = None,
 ) -> list[str]:
     cmd = ["yt-dlp"]
+
+    if cookies_browser:
+        cmd += ["--cookies-from-browser", cookies_browser]
 
     if fmt == Format.MP4:
         cmd += ["--merge-output-format", "mp4"]
@@ -72,7 +76,8 @@ def start_download(
     fmt: Format,
     start: str | None = None,
     end: str | None = None,
+    cookies_browser: str | None = None,
 ) -> None:
-    cmd = _build_command(url, download_dir, fmt, start, end)
+    cmd = _build_command(url, download_dir, fmt, start, end, cookies_browser)
     thread = threading.Thread(target=_run_download, args=(cmd,), daemon=True)
     thread.start()

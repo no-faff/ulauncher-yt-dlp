@@ -82,6 +82,9 @@ class KeywordQueryEventListener(EventListener):
         if not shutil.which("yt-dlp"):
             return _message("yt-dlp is not installed", "error")
 
+        if not shutil.which("deno"):
+            return _message("deno is not installed (required by yt-dlp for YouTube)", "error")
+
         errors = validate_preferences(extension.typed_preferences)
         if errors:
             return _message(errors[0], "error")
@@ -121,6 +124,7 @@ class ItemEnterEventListener(EventListener):
             fmt=prefs.default_format,
             start=data.get("start"),
             end=data.get("end"),
+            cookies_browser=prefs.cookies_browser,
         )
         return HideWindowAction()
 
