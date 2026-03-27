@@ -1,4 +1,4 @@
-# yt-dlp
+# ulauncher-yt-dlp
 
 A [Ulauncher](https://ulauncher.io/) extension for downloading videos with [yt-dlp](https://github.com/yt-dlp/yt-dlp). Supports full videos and clips with timestamps.
 
