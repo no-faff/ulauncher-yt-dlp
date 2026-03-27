@@ -99,9 +99,9 @@ def _run_download(cmd: list[str], download_dir: str, txt_mode: str = "none") -> 
         )
         if result.returncode == 0:
             if txt_mode == "txt_only":
-                _handle_txt_subs(download_dir, copy=False)
+                _handle_txt_subs(download_dir, keep_srt=False)
             elif txt_mode == "srt_and_txt":
-                _handle_txt_subs(download_dir, copy=True)
+                _handle_txt_subs(download_dir, keep_srt=True)
             _notify("Download complete", f"Saved to {download_dir}", folder=download_dir)
         else:
             stderr = result.stderr.strip()
@@ -113,19 +113,36 @@ def _run_download(cmd: list[str], download_dir: str, txt_mode: str = "none") -> 
         logger.error("yt-dlp timed out")
 
 
-def _handle_txt_subs(download_dir: str, copy: bool = False) -> None:
-    """Convert or copy SRT files to TXT. If copy=True, keeps the SRT."""
+def _srt_to_text(srt_path: str) -> str:
+    """Extract plain text from an SRT file, removing timestamps and sequence numbers."""
+    import re
+    content = Path(srt_path).read_text(encoding="utf-8", errors="replace")
+    lines = []
+    for line in content.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if re.match(r"^\d+$", line):
+            continue
+        if re.match(r"\d{2}:\d{2}:\d{2}", line):
+            continue
+        if line not in lines[-1:]:
+            lines.append(line)
+    return "\n".join(lines)
+
+
+def _handle_txt_subs(download_dir: str, keep_srt: bool = False) -> None:
+    """Create plain text transcript from SRT files. Optionally keeps the SRT."""
     import glob
-    import shutil
     for srt_file in glob.glob(os.path.join(download_dir, "*.srt")):
         txt_file = srt_file.rsplit(".", 1)[0] + ".txt"
         if os.path.exists(txt_file):
             continue
         try:
-            if copy:
-                shutil.copy2(srt_file, txt_file)
-            else:
-                os.rename(srt_file, txt_file)
+            text = _srt_to_text(srt_file)
+            Path(txt_file).write_text(text, encoding="utf-8")
+            if not keep_srt:
+                os.remove(srt_file)
         except OSError:
             logger.warning("Could not create .txt from %s", srt_file)
 
