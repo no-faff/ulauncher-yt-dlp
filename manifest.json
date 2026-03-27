@@ -23,7 +23,7 @@
       "type": "select",
       "name": "Default format",
       "description": "Video format for downloads.",
-      "default_value": 0,
+      "default_value": 1,
       "options": [
         {
           "text": "Best quality",
