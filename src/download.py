@@ -41,7 +41,7 @@ def _build_command(
         cmd.append("-x")
 
     if start and end:
-        cmd += ["--download-sections", f"*{start}-{end}"]
+        cmd += ["--download-sections", f"*{start}-{end}", "--force-keyframes-at-cuts"]
 
     cmd += ["-o", str(download_dir / "%(title)s.%(ext)s")]
     cmd.append(url)

@@ -12,26 +12,30 @@ A [Ulauncher](https://ulauncher.io/) extension for downloading videos with [yt-d
 ## Requirements
 
 - Ulauncher 6 (Extension API v2)
-- yt-dlp
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [ffmpeg](https://ffmpeg.org/) (needed for merging video and audio, clips and audio extraction)
 - [Deno](https://deno.land/) (needed by yt-dlp for YouTube and other sites)
 - notify-send (usually already installed on Linux desktops)
 
-### Installing yt-dlp
+### Installing yt-dlp and ffmpeg
 
 ```bash
 # Fedora
-sudo dnf install yt-dlp
+sudo dnf install yt-dlp ffmpeg
 
 # Ubuntu/Debian
-sudo apt install yt-dlp
+sudo apt install yt-dlp ffmpeg
 
-# Or with pip (any distro)
+# Arch
+sudo pacman -S yt-dlp ffmpeg
+
+# Or with pip (yt-dlp only, install ffmpeg separately through your package manager)
 pip install yt-dlp
 ```
 
 ### Installing Deno
 
-Run this in a terminal:
+yt-dlp needs Deno to download from YouTube and some other sites. Run this in a terminal:
 
 ```bash
 curl -fsSL https://deno.land/install.sh | sh
@@ -42,7 +46,7 @@ The installer will ask two questions:
 1. **"Edit shell configs to add deno to the PATH?"** - type **Y** and press Enter. This is required.
 2. **"Set up completions?"** - just press Enter to skip. You don't need this.
 
-Then close and reopen your terminal (or run `source ~/.bashrc`) so the PATH change takes effect.
+Then close and reopen your terminal so the PATH change takes effect.
 
 ## Install
 
