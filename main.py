@@ -21,6 +21,7 @@ from ulauncher.api.shared.event import (
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 
 from src.download import start_download
+from src.enums import Format
 from src.preferences import YtDlpPreferences, get_preferences, load_preferences, validate_preferences
 
 logger = logging.getLogger(__name__)
@@ -115,8 +116,14 @@ class KeywordQueryEventListener(EventListener):
         if url is None:
             return _message("Invalid input. Use: yt <url> or yt <url> start end", "error")
 
+        # Detect if audio keyword was used
+        keyword = event.get_keyword()
+        audio_only = extension.preferences.get("kw_audio") == keyword
+
         if start and end:
             description = f"Clip {start} to {end}"
+        elif audio_only:
+            description = "MP3"
         else:
             description = "Full video"
 
@@ -126,7 +133,7 @@ class KeywordQueryEventListener(EventListener):
                 name=f"Download: {url}",
                 description=description,
                 on_enter=ExtensionCustomAction(
-                    {"url": url, "start": start, "end": end}
+                    {"url": url, "start": start, "end": end, "audio": audio_only}
                 ),
             )
         ])
@@ -136,6 +143,8 @@ class ItemEnterEventListener(EventListener):
     def on_event(self, event: ItemEnterEvent, extension: YtDlpExtension) -> HideWindowAction:
         data = event.get_data()
         prefs = load_preferences()
+        if data.get("audio"):
+            prefs.default_format = Format.AUDIO
         start_download(
             url=data["url"],
             prefs=prefs,

@@ -12,6 +12,12 @@
       "default_value": "yt"
     },
     {
+      "id": "kw_audio",
+      "type": "keyword",
+      "name": "Download audio (MP3)",
+      "default_value": "yta"
+    },
+    {
       "id": "download_dir",
       "type": "input",
       "name": "Download directory",

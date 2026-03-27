@@ -62,6 +62,8 @@ https://github.com/no-faff/ulauncher-yt-dlp
 |---|---|
 | `yt <url>` | Download full video |
 | `yt <url> 1:30 3:45` | Download clip from 1:30 to 3:45 |
+| `yta <url>` | Download as MP3 |
+| `yta <url> 1:30 3:45` | Download clip as MP3 |
 
 Timestamps accept `m:ss`, `h:mm:ss` or plain seconds.
 
