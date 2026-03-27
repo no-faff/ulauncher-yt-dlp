@@ -110,7 +110,14 @@ class KeywordQueryEventListener(EventListener):
 
         query = event.get_argument()
         if not query:
-            return _message("Usage: yt <url> or yt <url> 1:30 3:45")
+            return RenderResultListAction([
+                ExtensionResultItem(
+                    icon="images/icon.png",
+                    name="Paste a URL to download. Add timestamps to clip: yt <url> 1:30 3:45",
+                    description="Timestamps: m:ss, h:mm:ss or seconds",
+                    on_enter=DoNothingAction(),
+                )
+            ])
 
         url, start, end = _parse_query(query)
         if url is None:

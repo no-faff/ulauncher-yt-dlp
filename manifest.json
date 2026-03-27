@@ -131,7 +131,7 @@
       "id": "embed_metadata",
       "type": "select",
       "name": "Embed metadata",
-      "description": "Embed title, uploader, thumbnail and other metadata in the file.",
+      "description": "Embed title, uploader, upload date, description, tags, chapters and thumbnail in the file.",
       "default_value": 0,
       "options": [
         {
