@@ -6,7 +6,9 @@ Add playlist download support. Playlist URLs get a subfolder with numbered files
 
 ## Detection
 
-URL heuristic: check for `/playlist?` in the URL. Cheap, no network call, covers YouTube which is the primary use case. Non-YouTube playlist URLs that don't match the pattern still download fine but land flat in the download directory.
+Use yt-dlp's extractor registry to match the URL against known extractors via regex (no network call, ~0.3s). If the matching extractor is a playlist type (name contains "playlist", "album", "set", "collection", etc.), treat it as a playlist. This covers all yt-dlp-supported sites, not just YouTube.
+
+This is the same mechanism yt-dlp itself uses internally to decide which extractor to run. The only difference vs calling `--flat-playlist` is that we skip the network request (which adds 3-4s latency).
 
 ## Output templates
 
@@ -24,8 +26,8 @@ The playlist template is not configurable. The user's filename template preferen
 
 ### main.py
 
-- Add `_is_playlist_url(url: str) -> bool` heuristic (checks for `/playlist?` in URL).
-- `_parse_query`: return a fourth value `is_playlist` based on the heuristic. Reject timestamps + playlist URL combos.
+- Add `_is_playlist_url(url: str) -> bool` using yt-dlp's extractor registry. Import `yt_dlp`, create a `YoutubeDL` instance, iterate `_ies` and regex-match. Check if the first matching extractor name suggests a playlist type.
+- `_parse_query`: return a fourth value `is_playlist` based on detection. Reject timestamps + playlist URL combos.
 - Update result item description: show "Playlist" when detected.
 - Pass `is_playlist` in the `ExtensionCustomAction` data dict.
 - Pass `is_playlist` through to `start_download`.
