@@ -41,9 +41,9 @@ def test_playlist_uses_subfolder_template():
     assert output_arg == "/tmp/downloads/%(playlist_title)s/%(playlist_index)02d - %(title)s.%(ext)s"
 
 
-def test_playlist_has_no_playlist_flag():
+def test_playlist_omits_no_playlist_flag():
     cmd = _build_command("https://youtube.com/playlist?list=PLxxx", _default_prefs(), is_playlist=True)
-    assert "--no-playlist" in cmd
+    assert "--no-playlist" not in cmd
 
 
 def test_clip_has_no_playlist():

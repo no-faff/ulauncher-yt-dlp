@@ -30,7 +30,9 @@ def _build_command(
     end: str | None = None,
     is_playlist: bool = False,
 ) -> list[str]:
-    cmd = ["yt-dlp", "--no-playlist"]
+    cmd = ["yt-dlp"]
+    if not is_playlist:
+        cmd.append("--no-playlist")
 
     if prefs.cookies_browser:
         cmd += ["--cookies-from-browser", prefs.cookies_browser]

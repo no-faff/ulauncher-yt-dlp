@@ -2,7 +2,7 @@
 
 ## Summary
 
-Add playlist download support. Playlist URLs get a subfolder with numbered files. Single video behaviour is unchanged. `--no-playlist` is always passed so ambiguous URLs (video+list combo) download one video.
+Add playlist download support. Playlist URLs get a subfolder with numbered files. Single video behaviour is unchanged. `--no-playlist` is passed for non-playlist URLs so ambiguous URLs (video+list combo) download one video.
 
 ## Detection
 
@@ -20,7 +20,7 @@ The playlist template is not configurable. The user's filename template preferen
 ## Constraints
 
 - Clips (timestamps) are incompatible with playlists. Show an error if both are provided.
-- `--no-playlist` is always passed regardless of URL type.
+- `--no-playlist` is passed only for non-playlist URLs. Passing it on pure playlist URLs causes yt-dlp to error (HTTP 400).
 
 ## File changes
 
@@ -34,7 +34,7 @@ The playlist template is not configurable. The user's filename template preferen
 
 ### download.py
 
-- `_build_command`: accept `is_playlist: bool` parameter. When true, use the playlist output template. Always pass `--no-playlist`.
+- `_build_command`: accept `is_playlist: bool` parameter. When true, use the playlist output template and omit `--no-playlist`. When false, pass `--no-playlist`.
 - `start_download`: accept and forward `is_playlist` parameter.
 
 ### No changes
