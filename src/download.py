@@ -28,8 +28,9 @@ def _build_command(
     prefs: YtDlpPreferences,
     start: str | None = None,
     end: str | None = None,
+    is_playlist: bool = False,
 ) -> list[str]:
-    cmd = ["yt-dlp"]
+    cmd = ["yt-dlp", "--no-playlist"]
 
     if prefs.cookies_browser:
         cmd += ["--cookies-from-browser", prefs.cookies_browser]
@@ -65,7 +66,11 @@ def _build_command(
     if prefs.embed_metadata:
         cmd += ["--embed-metadata", "--embed-thumbnail"]
 
-    cmd += ["-o", str(prefs.download_dir / prefs.filename_template)]
+    if is_playlist:
+        template = "%(playlist_title)s/%(playlist_index)02d - %(title)s.%(ext)s"
+    else:
+        template = prefs.filename_template
+    cmd += ["-o", str(prefs.download_dir / template)]
     cmd.append(url)
 
     return cmd
@@ -152,8 +157,9 @@ def start_download(
     prefs: YtDlpPreferences,
     start: str | None = None,
     end: str | None = None,
+    is_playlist: bool = False,
 ) -> None:
-    cmd = _build_command(url, prefs, start, end)
+    cmd = _build_command(url, prefs, start, end, is_playlist=is_playlist)
     download_dir = str(prefs.download_dir)
     if prefs.subtitles == Subtitles.TXT:
         txt_mode = "txt_only"
