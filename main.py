@@ -22,6 +22,7 @@ from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 
 from src.download import start_download
 from src.enums import Format
+from src.playlist import is_playlist_url
 from src.preferences import YtDlpPreferences, get_preferences, load_preferences, validate_preferences
 
 logger = logging.getLogger(__name__)
@@ -41,14 +42,20 @@ def _is_timestamp(value: str) -> bool:
     return bool(TIMESTAMP_RE.match(value))
 
 
-def _parse_query(query: str) -> tuple[str | None, str | None, str | None]:
-    """Parse query into (url, start, end). Returns (None, None, None) if invalid."""
+def _parse_query(query: str) -> tuple[str | None, str | None, str | None, bool]:
+    """Parse query into (url, start, end, is_playlist). Returns (None, None, None, False) if invalid."""
     parts = query.strip().split()
+    if not parts:
+        return None, None, None, False
+    url = parts[0]
+    playlist = is_playlist_url(url)
     if len(parts) == 1:
-        return parts[0], None, None
+        return url, None, None, playlist
     if len(parts) == 3 and _is_timestamp(parts[1]) and _is_timestamp(parts[2]):
-        return parts[0], parts[1], parts[2]
-    return None, None, None
+        if playlist:
+            return None, None, None, False
+        return url, parts[1], parts[2], False
+    return None, None, None, False
 
 
 def _message(msg: str, icon: str = "icon") -> RenderResultListAction:
@@ -119,7 +126,7 @@ class KeywordQueryEventListener(EventListener):
                 )
             ])
 
-        url, start, end = _parse_query(query)
+        url, start, end, is_playlist = _parse_query(query)
         if url is None:
             return _message("Invalid input. Use: yt <url> or yt <url> start end", "error")
 
@@ -129,6 +136,8 @@ class KeywordQueryEventListener(EventListener):
 
         if start and end:
             description = f"Clip {start} to {end}"
+        elif is_playlist:
+            description = "Playlist"
         elif audio_only:
             description = "MP3"
         else:
@@ -140,7 +149,7 @@ class KeywordQueryEventListener(EventListener):
                 name=f"Download: {url}",
                 description=description,
                 on_enter=ExtensionCustomAction(
-                    {"url": url, "start": start, "end": end, "audio": audio_only}
+                    {"url": url, "start": start, "end": end, "audio": audio_only, "playlist": is_playlist}
                 ),
             )
         ])
