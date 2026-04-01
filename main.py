@@ -121,7 +121,7 @@ class KeywordQueryEventListener(EventListener):
                 ExtensionResultItem(
                     icon="images/icon.png",
                     name="yt <url> to download, or yt <url> 1:30 3:45 to grab a clip",
-                    description="Timestamps: m:ss, h:mm:ss or plain seconds",
+                    description="Playlist URLs download into a subfolder. Timestamps: m:ss, h:mm:ss or plain seconds",
                     on_enter=DoNothingAction(),
                 )
             ])
@@ -166,6 +166,7 @@ class ItemEnterEventListener(EventListener):
             prefs=prefs,
             start=data.get("start"),
             end=data.get("end"),
+            is_playlist=data.get("playlist", False),
         )
         return HideWindowAction()
 
